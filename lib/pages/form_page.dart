@@ -119,16 +119,18 @@ class _FormPageState extends State<FormPage> {
                       "Location": locationController.text,
                       "id": Id,
                     };
-                    await dataBaseMethods()
+                    await DataBaseMethods()
                         .addEmployeeDetails(employeeInfoMap, Id)
+                        // helps to show snackbar (toast)
                         .then((value) {
                       Fluttertoast.showToast(
                           msg: "Entered Data has been added sucessfully!",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
+                          backgroundColor:
+                              const Color.fromARGB(255, 255, 255, 255),
+                          textColor: const Color.fromARGB(255, 0, 0, 0),
                           fontSize: 16.0);
                     });
                   },
