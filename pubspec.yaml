@@ -40,6 +40,11 @@ dependencies:
   # firebase_storage: ^11.6.10
   cloud_firestore: ^4.15.9
 
+  # this will generate unique uid
+  random_string: ^2.3.1
+  # this work like snackbar 
+  fluttertoast: ^8.2.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

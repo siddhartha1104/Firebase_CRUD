@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:random_string/random_string.dart';
+import 'package:todo/server/database.dart';
 import 'package:todo/widget/widget_support.dart';
 
 class FormPage extends StatefulWidget {
@@ -9,6 +12,10 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController ageController = new TextEditingController();
+  TextEditingController locationController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +63,7 @@ class _FormPageState extends State<FormPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
+                  controller: nameController,
                   decoration: const InputDecoration(border: InputBorder.none),
                   style: AppWidget.semiBoldTextFeildStyle(),
                 ),
@@ -75,6 +83,7 @@ class _FormPageState extends State<FormPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
+                  controller: ageController,
                   decoration: const InputDecoration(border: InputBorder.none),
                   style: AppWidget.semiBoldTextFeildStyle(),
                 ),
@@ -93,6 +102,7 @@ class _FormPageState extends State<FormPage> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
+                  controller: locationController,
                   decoration: const InputDecoration(border: InputBorder.none),
                   style: AppWidget.semiBoldTextFeildStyle(),
                 ),
@@ -100,7 +110,28 @@ class _FormPageState extends State<FormPage> {
               const SizedBox(height: 50),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // helps to store data in firebase
+                    String Id = randomAlphaNumeric(10);
+                    Map<String, dynamic> employeeInfoMap = {
+                      "Name": nameController.text,
+                      "Age": ageController.text,
+                      "Location": locationController.text,
+                      "id": Id,
+                    };
+                    await dataBaseMethods()
+                        .addEmployeeDetails(employeeInfoMap, Id)
+                        .then((value) {
+                      Fluttertoast.showToast(
+                          msg: "Entered Data has been added sucessfully!",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    });
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
